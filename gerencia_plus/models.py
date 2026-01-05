@@ -10,7 +10,7 @@ class Gerenciamento(models.Model):
     descricao = models.TextField(max_length=255)
     preco = models.DecimalField(max_digits=10, decimal_places=2)
     quantidade = models.IntegerField()
-    peso = models.TextField(max_length=255)
+    peso = models.DecimalField(max_digits=8, decimal_places=2, default=0.00)    
     fornecedor = models.TextField(max_length=255)
     categoria = models.CharField(max_length=255)
     data_entrada = models.DateField()
@@ -21,21 +21,20 @@ class Gerenciamento(models.Model):
 @receiver(post_delete, sender=Gerenciamento)
 def reset_ids_after_deletion(sender, instance, **kwargs):
     try:
-        deleted_id = instance.id
-
         with connection.cursor() as cursor:
+            # Verifica quantos itens sobraram
+            count = Gerenciamento.objects.count()
             
-                cursor.execute(f"SELECT MAX(id) FROM gerencia_plus_gerenciamento;")
-                result = cursor.fetchone()
-                max_id = result[0] if result[0] else 0
-        if deleted_id == max_id:
-            next_id = deleted_id
-        else:
-            next_id = max_id + 0
-
-        with connection.cursor() as cursor:
-            cursor.execute(f"UPDATE sqlite_sequence SET seq = {next_id} WHERE name = 'gerencia_plus_gerenciamento';")
-    except: pass
+            if count == 0:
+                # Se não sobrou nada, reseta o contador para 0 (o próximo será 1)
+                cursor.execute("DELETE FROM sqlite_sequence WHERE name = 'gerencia_plus_gerenciamento';")
+            else:
+                # Se ainda tem itens, ajusta o contador para o maior ID atual
+                cursor.execute("SELECT MAX(id) FROM gerencia_plus_gerenciamento;")
+                max_id = cursor.fetchone()[0]
+                cursor.execute(f"UPDATE sqlite_sequence SET seq = {max_id} WHERE name = 'gerencia_plus_gerenciamento';")
+    except Exception as e:
+        print(f"Erro ao resetar ID: {e}")
 
 class Review(models.Model):
     RATING_CHOICES = [
