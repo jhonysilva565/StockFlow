@@ -1,186 +1,299 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StockFlow | Login</title>
+    
     <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <link rel="icon" type="image/png" sizes="32x32" href="https://i.pinimg.com/750x/9a/ca/78/9aca78a052501b6445069daf6528e700.jpg">
     <meta name="google-signin-client_id" content="394642464859-hf0v5m51m5tq76mvqe77ajk7aaeu8inm.apps.googleusercontent.com">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="https://i.pinimg.com/750x/9a/ca/78/9aca78a052501b6445069daf6528e700.jpg">
+    
     <style>
+        :root {
+            --brand-color: #244ced;
+            --brand-gradient: linear-gradient(135deg, #244ced 0%, #0a2eb4 100%);
+            --bg-color: #f8fafc;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --white: #ffffff;
+        }
+
         body {
-            background-color: #f8f9fa;
-            font-family: Arial, sans-serif;
-        }
-
-        .container {
-            max-width: 400px;
-            margin: 0 auto;
-            margin-top: 100px;
-            padding: 20px;
-            background-color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            margin-top: 50vh;
-            transform: translateY(-65%);
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 30px;
-            color: #333;
-            font-size: 24px;
-        }
-
-        form {
-            margin-top: 30px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            font-weight: bold;
-            color: #555;
-        }
-
-        .form-control {
-            border-radius: 4px;
-            padding: 10px;
-            color: #333;
-            font-size: 14px;
-            border-radius: 10px;
-        }
-
-        .form-control:focus {
-            border-color: #80bdff;
-            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-        }
-
-        .btn-primary {
-            width: 100%;
-            padding: 12px;
-            font-size: 16px;
-            font-weight: bold;
-            background-color: #007bff;
-            border: none;
-            transition: background-color 0.3s ease;
-            border-radius: 12px;
-        }
-
-        .btn-primary:hover {
-            background-color: #0056b3;
-        }
-
-        .btn-primary:focus {
-            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5);
-        }
-
-        .btn-primary:active {
-            background-color: #003580;
-        }
-
-        .btn-primary:disabled {
-            opacity: 0.7;
-            pointer-events: none;
-        }
-
-        .error-message {
-            color: #dc3545;
-            font-size: 14px;
-            margin-top: 8px;
-        }
-
-        .return-btn {
+            margin: 0;
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(36, 76, 237, 0.05) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(36, 76, 237, 0.05) 0px, transparent 50%);
+            height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            text-align: center;
-            margin-top: 20px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-font-smoothing: antialiased;
         }
 
-        .return-btn a {
-            color: #333;
-            text-decoration: none;
-            font-weight: bold;
-            transition: color 0.3s ease;
-        }
-
-        .return-btn a:hover {
-            color: #007bff;
-        }
-
-        /* Estilos para mostrar/ocultar senha */
-        .password-toggle {
+        .login-card {
+            background: var(--white);
+            width: 100%;
+            max-width: 440px;
+            padding: 50px;
+            border-radius: 32px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.7);
             position: relative;
+            overflow: hidden;
         }
 
-        .password-toggle input[type="password"] {
-            padding-right: 35px;
-        }
-
-        .password-toggle .toggle-password {
+        /* Detalhe sutil no topo do card */
+        .login-card::before {
+            content: "";
             position: absolute;
-            right: 10px;
-            top: 74%;
-            transform: translateY(-50%);
-            cursor: pointer;
-            color: #4b7eff;
+            top: 0; left: 0; right: 0;
+            height: 6px;
+            background: var(--brand-gradient);
         }
+
+        .brand-header {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .brand-header h1 {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--text-main);
+            margin: 0;
+            letter-spacing: -1.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .brand-header p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-top: 8px;
+            font-weight: 500;
+        }
+
+        /* --- INPUTS REDESENHADOS --- */
+        .field-container {
+            margin-bottom: 24px;
+        }
+
+        .field-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 10px;
+            margin-left: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-wrapper i {
+            position: absolute;
+            left: 20px;
+            color: #94a3b8;
+            font-size: 18px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .form-input {
+            width: 100%;
+            background: #f1f5f9;
+            border: 2px solid #f1f5f9;
+            border-radius: 16px;
+            padding: 16px 20px 16px 54px;
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-main);
+            transition: all 0.3s ease;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        .form-input::placeholder {
+            color: #94a3b8;
+            font-weight: 400;
+        }
+
+        .form-input:focus {
+            background: var(--white);
+            border-color: var(--brand-color);
+            box-shadow: 0 10px 20px -5px rgba(36, 76, 237, 0.15);
+        }
+
+        .form-input:focus + i {
+            color: var(--brand-color);
+            transform: scale(1.1);
+        }
+
+        /* Toggle Senha */
+        .pass-toggle {
+            position: absolute;
+            right: 18px;
+            background: none;
+            border: none;
+            color: var(--brand-color);
+            font-size: 11px;
+            font-weight: 800;
+            cursor: pointer;
+            padding: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 8px;
+        }
+        .pass-toggle:hover { background: rgba(36, 76, 237, 0.05); }
+
+        .btn-primary {
+            width: 100%;
+            background: var(--brand-gradient);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            padding: 18px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(36, 76, 237, 0.3);
+        }
+
+        .divider {
+            margin: 30px 0;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: #cbd5e1;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .divider::before, .divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: #e2e8f0;
+        }
+        .divider span { padding: 0 15px; }
+
+        .google-box {
+            display: flex;
+            justify-content: center;
+        }
+
+        .footer-action {
+            margin-top: 35px;
+            text-align: center;
+        }
+
+        .footer-action a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .footer-action a:hover { color: var(--brand-color); }
+
+        /* Animação de entrada */
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .login-card { animation: slideUp 0.6s ease-out; }
+
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Login</h1>
+
+    <div class="login-card">
+        <header class="brand-header">
+            <h1><i class="fas fa-layer-group" style="font-size: 22px;"></i> StockFlow</h1>
+            <p>Seu inventário em um novo nível.</p>
+        </header>
+
         <form method="post">
             {% csrf_token %}
-            <div class="form-group">
-                <label for="id_username">Usuário:</label>
-                <input type="text" id="id_username" name="username" class="form-control" required>
+            
+            <div class="field-container">
+                <label class="field-label">Identificação</label>
+                <div class="input-wrapper">
+                    <input type="text" name="username" class="form-input" placeholder="Seu nome de usuário" required>
+                    <i class="fa-solid fa-at"></i>
+                </div>
             </div>
-            <div class="form-group password-toggle">
-                <label for="id_password">Senha:</label>
-                <input type="password" id="id_password" name="password" class="form-control" required>
-                <span class="toggle-password" onclick="togglePasswordVisibility(this)">Mostrar</span>
+
+            <div class="field-container">
+                <label class="field-label">Senha de Acesso</label>
+                <div class="input-wrapper">
+                    <input type="password" id="pass" name="password" class="form-input" placeholder="Sua senha secreta" required>
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <button type="button" class="pass-toggle" onclick="toggle()">Ver</button>
+                </div>
             </div>
-            <button type="submit" class="btn btn-primary">Entrar</button>
+
+            <button type="submit" class="btn-primary">
+                Acessar Plataforma <i class="fas fa-chevron-right" style="font-size: 12px;"></i>
+            </button>
+
             {% if error_message %}
-            <div class="error-message">
-                {{ error_message }}
-            </div>
+                <div style="color: #ef4444; font-size: 13px; text-align: center; margin-top: 15px; font-weight: 600;">
+                    <i class="fas fa-circle-exclamation mr-1"></i> Usuário ou senha incorretos
+                </div>
             {% endif %}
         </form>
 
-       <div class="g-signin2" data-onsuccess="onSignIn" style="margin: 20px auto;"></div>
+        <div class="divider"><span>Segurança Google</span></div>
 
-        <div class="return-btn">
-            <a href="/">Voltar para a página inicial</a>
+        <div class="google-box">
+            <div class="g-signin2" data-onsuccess="onSignIn"></div>
+        </div>
+
+        <div class="footer-action">
+            <a href="/"><i class="fas fa-arrow-left-long mr-2"></i> Retornar ao portal</a>
         </div>
     </div>
 
     <script>
-
-        function togglePasswordVisibility(icon) {
-            var passwordField = document.getElementById("id_password");
-            if (passwordField.type === "password") {
-                passwordField.type = "text";
-                icon.textContent = "Ocultar";
+        function toggle() {
+            const p = document.getElementById("pass");
+            const b = document.querySelector(".pass-toggle");
+            if (p.type === "password") {
+                p.type = "text";
+                b.textContent = "Ocultar";
             } else {
-                passwordField.type = "password";
-            icon.textContent = "Mostrar";
+                p.type = "password";
+                b.textContent = "Ver";
             }
         }
-
-        function onSignIn (googleUser) {
-            var profile = googleUser.getBasicProfile();
-            console.log('ID: ' + profile.getId());
-            console.log('Name: ' + profile.getName());
-            console.log('Image URL: ' + profile.getImageUrl());
-            console.log('Email: ' + profile.getEmail());
-        }
-        
+        function onSignIn(googleUser) {}
     </script>
-
 </body>
 </html>

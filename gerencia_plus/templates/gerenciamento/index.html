@@ -2,403 +2,341 @@
 <html lang="pt-br">
 
 <head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="icon" type="image/png" sizes="32x32" href="https://i.pinimg.com/750x/9a/ca/78/9aca78a052501b6445069daf6528e700.jpg">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>StockFlow | Gestão Inteligente</title>
+    
+    <link rel="icon" type="image/png" sizes="32x32" href="https://i.pinimg.com/750x/9a/ca/78/9aca78a052501b6445069daf6528e700.jpg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-    <title>StockFlow</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
     <style>
-        body,
-        html {
-            margin: 0;
-            padding: 0;
-            font-family: 'Montserrat', sans-serif;
+        :root {
+            --primary-blue: #244ced;
+            --dark-blue: #002f68;
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
         }
 
-        body {
-            background-image: url("https://img.freepik.com/fotos-premium/plano-de-fundo-desfocado-do-estoque-de-produtos-de-estoque-de-armazem-para-historico-de-logistica-negocios-globais-para-boa-importacao-e-exportacao-armazenamento-de-estoque-entrega-industrial-conteiner-de-carga-de-fabrica-logistica_33755-8758.jpg");
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        /* Hero Section com Background */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.5)), 
+                        url("https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2070&auto=format&fit=crop");
             background-size: cover;
-        }
-
-        .navbar {
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            background-color: #000000be;
-            padding: 8px 40px;
             color: white;
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.41);
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 999;
+            padding-top: 80px;
         }
 
-        .navbar ul {
-            list-style: none;
-            display: flex;
-            margin: 0;
-            padding: 0;
+        /* Navbar Estilo Glassmorphism */
+        .navbar {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 15px 0;
+            transition: 0.3s;
         }
 
-        .navbar ul li {
-            margin-right: 30px;
+        .navbar-brand {
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #0dcaf0 !important;
         }
 
-        .navbar ul li a {
-            color: white;
-            text-decoration: none;
-            font-size: 18px;
-            padding: 8px;
+        .nav-link {
+            color: white !important;
+            font-weight: 500;
+            margin: 0 10px;
             position: relative;
         }
 
-        .navbar ul li a:before {
-            content: "";
+        .nav-link::after {
+            content: '';
             position: absolute;
             width: 0;
             height: 2px;
             bottom: 0;
-            left: 50%;
-            background-color: #ffffff;
-            visibility: hidden;
-            transition: all 0.3s ease-in-out;
-            transform: translateX(-50%);
+            left: 0;
+            background: #0dcaf0;
+            transition: 0.3s;
         }
 
-        .navbar ul li a:hover:before {
-            visibility: visible;
+        .nav-link:hover::after {
             width: 100%;
         }
 
-        .main-section {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: calc(100vh - 80px);
-            padding: 40px;
-            margin-top: 80px;
-            margin-left: 20px;
-            margin-right: 20px;
-        }
-
-        .content {
-            text-align: center;
-            color: white;
-        }
-
-        .content h1 {
-            font-size: 48px;
-            margin-bottom: 30px;
-        }
-
-        .content p {
-            font-size: 24px;
-            margin-bottom: 30px;
-        }
-
-        .btn-primary {
-            font-size: 17px;
-            padding: 8px 20px;
-            border-radius: 20px;
-            border-color: black;
-            display: inline-block;
-            transition: all 0.3s;
-            text-transform: uppercase;
-            font-weight: bold;
+        /* Conteúdo Principal */
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
             margin-bottom: 20px;
-            color: white;
-            width: 200px;
-            margin-left: auto;
-            margin-right: auto;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        .btn-main {
+            padding: 12px 35px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-transform: uppercase;
+            transition: 0.3s;
             text-decoration: none;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            display: inline-block;
         }
 
-        .btn-black {
-            background-color: transparent;
-            color: black;
-        }
-
-        .btn-primary:hover {
-            transform: scale(1.1);
-            background-color: #002f68;
-            border-color: #003a80;
-        }
-
-        .btn-black:hover {
-            background-color: transparent;
-        }
-
-        .logo {
-            font-size: 24px;
-        }
-
-        .highlight {
-            font-weight: bold;
-            color: #244ced;
-        }
-
-        .icon {
-            margin-right: 10px;
-        }
-
-        .additional-section {
-            background-color: #f4f4f4;
-            padding: 60px 40px;
-            text-align: center;
-            margin-left: 20px;
-            margin-right: 20px;
-        }
-
-        .additional-section h2 {
-            font-size: 36px;
-            margin-bottom: 30px;
-        }
-
-        .additional-section ul {
-            list-style: none;
-            padding: 0;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .additional-section ul li {
-            font-size: 18px;
-            max-width: 300px;
-            margin: 10px;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-        }
-
-        .additional-section ul li span {
-            font-weight: bold;
-        }
-
-        .gallery-section {
-            padding: 60px 40px;
-            text-align: center;
-        }
-
-        .gallery-section h2 {
-            font-size: 36px;
-            margin-bottom: 30px;
-        }
-
-        .gallery-section .image-container {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 30px;
-        }
-
-        .gallery-section .image-container img {
-            width: 200px;
-            margin: 10px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-        }
-
-        .testimonials-section {
-            background-color: #f4f4f4;
-            padding: 60px 40px;
-            text-align: center;
-        }
-
-        .testimonials-section h2 {
-            font-size: 36px;
-            margin-bottom: 30px;
-        }
-
-        .testimonials-section .testimonial {
-            max-width: 300px;
-            margin: 10px;
-            text-align: center;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-        }
-
-        .testimonials-section .testimonial p {
-            margin-bottom: 10px;
-        }
-
-        .testimonials-section .testimonial b {
-            font-weight: bold;
-        }
-
-        .faq-section {
-            padding: 60px 40px;
-        }
-
-        .faq-section h2 {
-            font-size: 36px;
-            margin-bottom: 30px;
-        }
-
-        .faq-section .question {
-            max-width: 800px;
-            margin: 30px auto;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-        }
-
-        .faq-section .question p {
-            margin-bottom: 10px;
-        }
-
-        .faq-section .question b {
-            font-weight: bold;
-        }
-
-        footer {
-            padding: 10px 10;
-            position: calc();
-            bottom: 0;
-            left: 0;
-            right: 0;
-            text-align: center;
-            color: rgb(255, 255, 255);
-        }
-
-        .btn-primary.bg-transparent {
-            background-color: transparent;
-        }
-
-        .fas {
-            margin-right: 10px;
-            color: #cfcfcf;
-        }
-
-        /* Estilos para o botão de Política de Privacidade */
-        .privacy-button {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .privacy-button .btn-primary {
-            background-color: #002f68;
-            border-color: #003a80;
+        .btn-login {
+            background: linear-gradient(45deg, var(--primary-blue), #00d4ff);
             color: white;
-            transition: all 0.3s;
-        }
-
-        .privacy-button .btn-primary:hover {
-            background-color: #0057c1;
-            border-color: #0057c1;
-        }
-
-        .btn {
-            background-color: #0057c1;
-            color: #ffffff;
-            padding: 10px 20px;
             border: none;
-            cursor: pointer;
-            text-decoration: none;
-            border-top: none;
+            box-shadow: 0 4px 15px rgba(36, 76, 237, 0.4);
         }
+
+        .btn-register {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+            margin-left: 15px;
+        }
+
+        .btn-main:hover {
+            transform: translateY(-3px);
+            color: white;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        /* Seção Sobre / Cards */
+        .about-section {
+            padding: 80px 0;
+            background: #f8fafc;
+        }
+
+        .info-card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            height: 100%;
+            transition: 0.3s;
+            border: 1px solid #eee;
+        }
+
+        .info-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .info-card i {
+            font-size: 2.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+        }
+
+        /* FAQ */
+        .faq-section {
+            padding: 80px 0;
+            background: #1a1a1a;
+            color: white;
+        }
+
+        .accordion-item {
+            background: #2a2a2a;
+            border: none;
+            margin-bottom: 10px;
+            border-radius: 10px !important;
+            overflow: hidden;
+        }
+
+        .accordion-button {
+            background: #2a2a2a;
+            color: white !important;
+            font-weight: 600;
+        }
+
+        .accordion-button:not(.collapsed) {
+            background: var(--dark-blue);
+        }
+
+        /* Footer */
+        footer {
+            background: #000;
+            color: #888;
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .footer-links a {
+            color: #888;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 0.9rem;
+        }
+
+        .footer-links a:hover { color: white; }
     </style>
 </head>
 
 <body>
 
-    <!-- Menu de Navegação -->
-    <nav class="navbar fixed-top">
-        <div class="logo">
-            <h2>StockFlow</h2>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">STOCKFLOW</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#top"><i class="fas fa-home me-1"></i>Início</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'avaliar' %}"><i class="fas fa-star me-1"></i>Avaliar</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'tutorial' %}"><i class="fas fa-book me-1"></i>Tutorial</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'contato' %}"><i class="fas fa-envelope me-1"></i>Contato</a></li>
+                </ul>
+            </div>
         </div>
-        <ul>
-            <li><a href="#top" id="homeBtn"><i jclass="fas fa-home"></i>Início</a></li>
-            <li><a href="{% url 'avaliar' %}"><i class="fas fa-eye"></i>Avaliar</a></li>
-            <li><a href="{% url 'tutorial' %}"><i class="fas fa-book"></i>Tutorial StockFlow</a></li>
-            <li><a href="{% url 'contato' %}"><i class="fas fa-envelope"></i>Contato</a></li>
-        </ul>
     </nav>
 
-    <!-- Seção Principal -->
-    <div class="main-section">
-        <div class="content">
-            <h1>Bem-vindo(a) ao <span class="highlight">StockFlow</span>!</h1>
-            <p style="color: black;">Uma solução completa para gestão de estoque.</p>
-            <a id="loginBtn" class="btn-primary" href="{% url 'login' %}" style="display: block; margin: 0 auto; text-decoration: none;">
-                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" id="spinner" style="display:none;"></span>
-                Fazer Login
-            </a>
-            <a id="createAccountBtn" class="btn-primary btn-black" href="{% url 'register' %}" style="display: block; margin: 10px auto; text-decoration: none;">
-                Criar Conta
-            </a>
+    <section class="hero" id="top">
+        <div class="container text-center">
+            <div class="hero-content">
+                <h1 class="display-3">Gerencie seu estoque com <span class="text-info">Inteligência</span></h1>
+                <p class="lead">A solução definitiva para o controle de produtos, auditoria e logística da sua empresa.</p>
+                <div class="mt-5">
+                    <a href="{% url 'login' %}" class="btn-main btn-login" id="loginBtn">
+                        <i class="fas fa-sign-in-alt me-2"></i>Acessar Sistema
+                    </a>
+                    <a href="{% url 'register' %}" class="btn-main btn-register">
+                        <i class="fas fa-user-plus me-2"></i>Criar Conta Grátis
+                    </a>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
 
-    <!-- Seção Adicional -->
-    <div class="additional-section">
-        <h2>Sobre o StockFlow</h2>
-        <ul>
-            <li><span>Otimização de Espaço:</span> Maximize o espaço de armazenamento com nosso sistema inteligente de organização.</li>
-            <li><span>Auditoria de Estoque:</span> Facilite a auditoria do inventário com registros detalhados.</li>
-            <li><span>Simplicidade de uso no SF:</span> O StockFlow oferece um sistema de gerenciamento simples e fácil de usar.</li>
-            <li><span>Controle de Qualidade:</span> Garanta a qualidade dos produtos em estoque com nossas ferramentas de controle.</li>
-        </ul>
-    </div>
+    <section class="about-section">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Por que escolher o StockFlow?</h2>
+                <p class="text-muted">Recursos pensados para facilitar o seu dia a dia.</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-3">
+                    <div class="info-card text-center">
+                        <i class="fas fa-box-open"></i>
+                        <h5>Otimização de Espaço</h5>
+                        <p class="text-muted small">Maximize seu armazenamento com organização inteligente.</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="info-card text-center">
+                        <i class="fas fa-clipboard-check"></i>
+                        <h5>Auditoria Simples</h5>
+                        <p class="text-muted small">Registros detalhados para facilitar conferências.</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="info-card text-center">
+                        <i class="fas fa-bolt"></i>
+                        <h5>Agilidade total</h5>
+                        <p class="text-muted small">Interface rápida para cadastros em poucos segundos.</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="info-card text-center">
+                        <i class="fas fa-shield-alt"></i>
+                        <h5>Controle de Qualidade</h5>
+                        <p class="text-muted small">Garanta a integridade dos itens em seu estoque.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <!-- Perguntas Frequentes -->
-    <div class="faq-section">
-        <h2 style="color: #e2e2e2;">Perguntas Frequentes</h2>
-        <div class="question">
-            <p><b>Como faço para acessar o StockFlow?</b></p>
-            <p>É fácil, basta clicar em "Criar Conta" e criar um usuário e senha para acessar o sistema.</p>
+    <section class="faq-section">
+        <div class="container">
+            <h2 class="text-center mb-5">Perguntas Frequentes</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="accordion" id="faqAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#f1">
+                                    Como faço para acessar o StockFlow?
+                                </button>
+                            </h2>
+                            <div id="f1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Basta clicar em "Criar Conta" no topo da página, preencher seus dados e você já terá acesso imediato ao painel.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#f2">
+                                    O sistema possui tutorial de uso?
+                                </button>
+                            </h2>
+                            <div id="f2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Sim! Temos uma seção dedicada chamada "Tutorial StockFlow" com o passo a passo de cada funcionalidade.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="question">
-            <p><b>Existe algum tutorial sobre como utilizar as funcionalidades do StockFlow?</b></p>
-            <p>Sim, na barra superior do site temos uma opção chamada "Tutorial StockFlow".</p>
-        </div>
-    </div>
+    </section>
 
     <footer>
-        <p style="text-align: center; color: white; padding: 10px 0;">&copy; 2023 StockFlow. Todos os direitos reservados.</p>
-        <a href="politica-de-privacidade" class="btn-primary" style="text-decoration: none; font-size: 14px; padding: 5px 15px;">Política de Privacidade</a>
+        <div class="container">
+            <p class="mb-3">&copy; 2026 StockFlow. Todos os direitos reservados.</p>
+            <div class="footer-links">
+                <a href="#">Política de Privacidade</a>
+                <a href="#">Termos de Serviço</a>
+                <a href="{% url 'contato' %}">Suporte</a>
+            </div>
+        </div>
     </footer>
 
-    <div class="privacy-button">
-        <a href="termos-de-servico" class="btn-primary" style="text-decoration: none; font-size: 14px; padding: 5px 15px;">Termos de Serviço</a>
-    </div>
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         $(document).ready(function() {
-            // Verifica se a página foi carregada através de um clique em um link
-            if (performance.navigation.type === 1) {
-                // Aplica o efeito fade-out ao corpo da página
-                $('body').hide().fadeIn(1000);
-            }
+            // Efeito Fade In no carregamento
+            $('body').hide().fadeIn(1000);
 
-            // Adicionando a funcionalidade de rolagem suave ao clicar no botão Início
-            $("#homeBtn").click(function(event) {
-                event.preventDefault();
-                $("html, body").animate({ scrollTop: 0 }, "slow");
+            // Troca cor da navbar ao rolar
+            $(window).scroll(function() {
+                if ($(this).scrollTop() > 50) {
+                    $('.navbar').css('background', '#000');
+                } else {
+                    $('.navbar').css('background', 'rgba(0,0,0,0.8)');
+                }
             });
 
-            // Adicionando efeito de transição ao clicar no botão de login
-            $("#loginBtn").click(function(event) {
-                event.preventDefault();
-                $('body').fadeOut(1000, function() {
-                    window.location.href = $("#loginBtn").attr('href');
+            // Clique suave no login com fadeOut
+            $("#loginBtn").click(function(e) {
+                e.preventDefault();
+                let url = $(this).attr('href');
+                $('body').fadeOut(800, function() {
+                    window.location.href = url;
                 });
             });
         });
     </script>
-
 </body>
-
 </html>

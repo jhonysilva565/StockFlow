@@ -1,337 +1,223 @@
-<!doctype html>
-<html lang="en" class="min-vh-100">
+<!DOCTYPE html>
+<html lang="pt-br" class="min-vh-100">
 <head>
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">  
-  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-  <link rel="icon" type="image/png" sizes="32x32" href="https://i.pinimg.com/750x/9a/ca/78/9aca78a052501b6445069daf6528e700.jpg">
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-  <title>Gerenciamento de Estoque</title>
-  <style>
-    /* Estilo personalizado */
-    body {
-      background-color: #cbd1d6; /* Nova cor de fundo */
-    }
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>StockFlow | Cadastro de Estoque</title>
     
-    .min-vh-100 {
-      min-height: 100vh;
-    }
-
-    .category-buttons {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 20px;
-    }
-
-    .category-buttons button {
-      margin: 0 10px;
-    }
-
-    /* Adicione mais estilos conforme necessário */
-    .form-control::placeholder {
-      color: #aab2bd;
-    }
-
-    .form-control:focus {
-      border-color: #007bff;
-  box-shadow: none;
-    }
-
-    .btn-primary {
-      background-color: #3575b9;
-      border-color: #007bff;
-    }
-
-    .btn-primary:hover {
-      background-color: #0069d9;
-      border-color: #0062cc;
-    }
-
-    .btn-primary:focus {
-      box-shadow: none;
-    }
-
-    /* Estilos personalizados para os inputs */
-    input[type="text"],
-    input[type="number"],
-    select,
-    textarea {
-      border-radius: 15px;
-    }
-
-    input[type="text"],
-    input[type="number"],
-    select {
-      border: 1px solid #aab2bd;
-      padding: 6px 10px;
-      height: 39px; /* Altura do input */
-    }
-
-    textarea {
-      border: 1px solid #aab2bd;
-      padding: 6px 10px;
-      border-radius: 67px; /* Borda um pouco menor */
-    }
-
-    /* Estilo personalizado para o input de "descrição" */
-    #descricao {
-      border-radius: 10px; /* Borda um pouco menor */
-      padding: 6px 10px;
-      height: 60px; /* Ajuste a altura do input conforme necessário */
-    }
-
-    /* Ajuste do tamanho do menu suspenso */
-    select#categoria {
-      height: 36px; /* Aumente o valor da altura conforme necessário */
-      border-radius: 10px; /* Borda circular */
-    }
-
-    /* Estilo personalizado para o input de "gerenciamento de estoque" */
-    #gerenciamento-estoque {
-      border-radius: 60px;
-      border: 1px solid #aab2bd;
-      padding: 6px 10px;
-      height: 30px; /* Altura do input */
-    }
-    .navbar {
-      background: rgba(22, 21, 21, 0.85); /* semi-transparent black */
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); /* slight shadow for depth */
-      border-bottom: 3px solid white; /* linha branca na parte inferior */
-    }
-
-
-    .navbar .navbar-brand,
-    .navbar .navbar-nav .nav-link {
-      transition: color 0.5s; /* smooth color transition */
-      color: white;
-    }
-
-    .navbar .navbar-nav .nav-link {
-      margin: 0 15px;
-      position: relative;
-      cursor: pointer; /* cursor de clique */
-    }
-
-    .navbar .navbar-nav .nav-link:after {
-      content: '';
-      position: absolute;
-      width: 100%;
-      height: 2px;
-      background: #ffffff;
-      bottom: 0;
-      left: 0;
-      transform: scaleX(0); /* adicionado: inicialmente, a largura é zero */
-      transition: transform 0.3s; /* alterado: transição aplicada ao transform */
-    }
-
-    .navbar .navbar-nav .nav-link:hover {
-      color: #ffffff;
-    }
-
-    .navbar .navbar-nav .nav-link:hover:after {
-      transform: scaleX(1); /* alterado: aumenta a largura para 100% */
-    }
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     
-    /* Estilo personalizado para o nome "StockFlow" na barra de opções */
-    .navbar-brand.stockflow {
-      color: rgb(78, 161, 255); /* Defina a cor desejada */
-    }
+    <style>
+        :root {
+            --primary-blue: #3575b9;
+            --soft-bg: #f3f6f9;
+            --dark-navbar: #1a1a1a;
+            --white: #ffffff;
+            --border-color: #e2e8f0;
+        }
 
-    .focused {
-      border-color: #3575b9;
-      box-shadow: 0 0 5px rgba(53, 117, 185, 0.75);
-    }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--soft-bg);
+            color: #334155;
+        }
 
-    .selected {
-      border-color: #3575b9;
-      box-shadow: 0 0 5px rgba(53, 117, 185, 0.75);
-    }
+        /* Navbar Customizada */
+        .navbar {
+            background-color: var(--dark-navbar) !important;
+            border-bottom: 2px solid var(--primary-blue);
+            padding: 1rem 0;
+        }
 
-    /* Estilos para o efeito de foco do elemento de entrada */
-    @keyframes input-pulse {
-      0% {
-        box-shadow: 0 0 0 0 rgba(53, 117, 185, 0.75);
-      }
-      70% {
-        box-shadow: 0 0 0 10px rgba(53, 117, 185, 0);
-      }
-      100% {
-        box-shadow: 0 0 0 0 rgba(53, 117, 185, 0);
-      }
-    }
+        .navbar-brand.stockflow {
+            font-weight: 700;
+            color: #4ea1ff !important;
+            letter-spacing: 1px;
+        }
 
-    .focused {
-      animation: input-pulse 1.5s infinite;
-    }
+        .nav-link {
+            color: rgba(255,255,255,0.8) !important;
+            font-weight: 500;
+            margin: 0 10px;
+        }
 
-    /* Estilos para o efeito de foco do elemento de seleção */
-    @keyframes select-pulse {
-      0% {
-        box-shadow: 0 0 0 0 rgba(53, 117, 185, 0.75);
-      }
-      70% {
-        box-shadow: 0 0 0 10px rgba(53, 117, 185, 0);
-      }
-      100% {
-        box-shadow: 0 0 0 0 rgba(53, 117, 185, 0);
-      }
-    }
+        /* Card Principal */
+        .main-card {
+            background: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            padding: 40px;
+            margin-top: 40px;
+            margin-bottom: 40px;
+            transition: opacity 1s ease; /* Para o efeito de saída */
+        }
 
-    .selected {
-      animation: select-pulse 1.5s infinite;
-    }
+        .section-title {
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-    .select-changed {
-      border: 2px solid #007bff;
-      transition: border 0.3s;
-    }
+        /* Inputs e Formulários */
+        label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #64748b;
+            margin-bottom: 8px;
+        }
 
-    label {
-      font-family: 'Roboto', sans-serif;
-    }
+        .form-control, .form-select {
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 12px 15px;
+            transition: all 0.3s ease;
+        }
 
-    .fadeOut {
-      animation-name: fadeOutAnimation;
-      animation-duration: 1s;
-    }
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 4px rgba(53, 117, 185, 0.1);
+            outline: none;
+        }
 
-    @keyframes fadeOutAnimation {
-      from {
-        opacity: 1;
-      }
-      to {
-        opacity: 0;
-      }
-    }
-  </style>
+        /* Botão */
+        .btn-add {
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 15px;
+            font-weight: 700;
+            width: 100%;
+            margin-top: 20px;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+
+        .btn-add:hover {
+            background-color: #2a5d94;
+            transform: translateY(-2px);
+        }
+
+        /* Animação de Saída */
+        .fadeOut {
+            opacity: 0;
+            pointer-events: none;
+        }
+    </style>
 </head>
-<body class="vh-100">
-  <nav class="navbar navbar-expand-lg">
-    <div class="container-fluid">
-      <a class="navbar-brand stockflow" href="#">StockFlow</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'home' %}">Página Inicial</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'salvo' %}">Produtos Cadastrados</a>
-          </li>
-        </ul>
-      </div>
+<body>
+
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand stockflow" href="#">STOCKFLOW</a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="{% url 'home' %}">Página Inicial</a>
+                <a class="nav-link" href="{% url 'salvo' %}">Produtos Cadastrados</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="main-card" id="formContainer">
+                    <h3 class="section-title">
+                        <i class="fas fa-plus-circle text-primary"></i> 
+                        Novo Cadastro de Produto
+                    </h3>
+
+                    <form id="productForm" action="{% url 'salvo' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <label for="nome-produto">Nome do Produto</label>
+                                <input type="text" id="nome-produto" name="nome-produto" class="form-control" placeholder="Ex: Cerveja IPA 500ml" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="quantidade">Quantidade em Estoque</label>
+                                <input type="number" id="quantidade" name="quantidade" class="form-control" placeholder="0" required>
+                            </div>
+
+                            <div class="col-md-12">
+                                <label for="descricao">Descrição</label>
+                                <textarea id="descricao" name="descricao" class="form-control" rows="2" placeholder="Detalhes do produto..." required></textarea>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="peso-estoque">Peso (Kg)</label>
+                                <input type="number" step="0.01" id="peso-estoque" name="peso-estoque" class="form-control" placeholder="0.00" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="preco">Preço (R$)</label>
+                                <input type="number" step="0.01" id="preco" name="preco" class="form-control" placeholder="0.00" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="fornecedor">Fornecedor</label>
+                                <input type="text" id="fornecedor" name="fornecedor" class="form-control" placeholder="Distribuidora X" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="categoria">Categoria</label>
+                                <select id="categoria" name="categoria" class="form-select" required>
+                                    <option selected disabled value="">Selecione uma categoria</option>
+                                    <option value="Alimentos">Alimentos</option>
+                                    <option value="Bebidas">Bebidas</option>
+                                    <option value="Moda">Moda</option>
+                                    <option value="Limpeza">Limpeza</option>
+                                    <option value="Eletrônicos">Eletrônicos</option>
+                                    <option value="Doces">Doces</option>
+                                    <option value="Higiene">Higiene</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="data-entrada">Data de Entrada</label>
+                                <input type="date" id="data-entrada" name="data-entrada" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-add" id="btnSubmit">
+                            <i class="fas fa-check-circle me-2"></i> Finalizar Cadastro
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-  </nav>
-  
-  <div class="container mt-5"> 
-    <div>
-      <form id="loginForm" method="POST" action="{% url 'salvo' %}">
-        {% csrf_token %}
-        <div class="row mb-3">
-          <div class="col">
-            <label for="nome-produto" class="form-label">Nome do Produto:</label>
-            <input type="text" class="form-control" id="nome-produto" name="nome-produto" placeholder="Digite o nome do produto" required>
 
-          </div>
-          <div class="col">
-            <label for="quantidade" class="form-label">Quantidade em Unidade:</label>
-            <input type="number" class="form-control" id="quantidade" name="quantidade" placeholder="Digite a quantidade em estoque" required>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // 1. Definir data de hoje automaticamente
+            const hoje = new Date().toISOString().split('T')[0];
+            $('#data-entrada').val(hoje);
 
-          </div>
-        </div>
-        <div class="row mb-3">
-          <div class="col">
-            <label for="descricao" class="form-label">Descrição:</label>
-            <textarea class="form-control" id="descricao" name="descricao" rows="3" placeholder="Digite a descrição" required></textarea>
+            // 2. Evento de envio do formulário
+            $('#productForm').on('submit', function(e) {
+                const btn = $('#btnSubmit');
+                const card = $('#formContainer');
 
-          </div>
-          <div class="col">
-            <label for="peso-estoque" class="form-label">Peso do produto em Kg:</label>
-            <input type="number" class="form-control" id="peso-estoque" name="peso-estoque" placeholder="Digite o peso do produto em Kg" required>
-          </div>
-        </div>
-        <div class="row mb-3">
-          <div class="col">
-            <label for="preco" class="form-label">Preço:</label>
-            <input type="number" class="form-control" id="preco" name="preco" placeholder="Digite o preço" required step="0.01">
+                // Mudar texto do botão e mostrar spinner
+                btn.html('<i class="fas fa-spinner fa-spin me-2"></i> Processando...');
+                btn.prop('disabled', true);
 
-          </div>
-          <div class="col">
-            <label for="fornecedor" class="form-label">Fornecedor:</label>
-            <input type="text" class="form-control" id="fornecedor" name="fornecedor" placeholder="Digite o fornecedor" required>
+                // Efeito de Fade Out (Opcional, mas estava no seu código)
+                // Nota: Se você for redirecionar após o POST, o FadeOut é muito rápido.
+                // Aqui ele acontece enquanto o navegador processa o envio.
+                setTimeout(function() {
+                    card.addClass('fadeOut');
+                }, 500);
+            });
 
-          </div>
-        </div>
-        <div class="mb-3">
-          <label for="categoria" class="form-label">Categoria do Produto:</label>
-          <select class="form-select" id="categoria" name="categoria" required>
-            <option selected disabled>Selecione uma categoria</option>
-            <option value="Alimentos">Alimentos</option>
-            <option value="Bebidas">Bebidas</option>
-            <option value="Moda">Moda</option>
-            <option value="Calçados">Calçados</option>
-            <option value="Limpeza">Limpeza</option>
-            <option value="Eletrônicos">Eletrônicos</option>
-            <option value="Móveis">Móveis</option>
-            <option value="Esportes">Esportes</option>
-            <option value="Games">Games</option>
-            <option value="Limpeza">Doces</option>
-            <option value="Higiene">Higiene</option>
-            <option value="Escolar">Escolar</option>
-            <!-- Adicione mais opções de categoria conforme necessário -->
-          </select>
-        </div>
-        <div class="mb-3">
-          <label for="data-entrada" class="form-label">Data de Entrada:</label>
-          <input type="date" class="form-control" id="data-entrada" name="data-entrada" required>
-
-        </div>
-        <button type="submit" class="btn btn-primary d-flex justify-content-center w-100">Adicionar Produto</button>
-      </form>
-    </div>
-  </div>
-
-  <script>
-    // Efeito de destaque ao focar e remover foco dos inputs
-    $(".form-control").focus(function() {
-      $(this).addClass("focused");
-    }).blur(function() {
-      $(this).removeClass("focused");
-    });
-
-    // Efeito de animação no select
-    $("select").change(function() {
-      $(this).addClass("select-changed");
-      setTimeout(() => {
-        $(this).removeClass("select-changed");
-      }, 2000);
-    });
-
-    function fadeOutEffect() {
-      var form = document.getElementById("loginForm");
-
-      // Aplica a classe de animação "fadeOut"
-      form.classList.add("fadeOut");
-
-      // Oculta o formulário após 1 segundo (1000 milissegundos)
-      setTimeout(function() {
-        form.style.display = "none";
-      }, 1000); // Ajuste o tempo de espera conforme necessário (em milissegundos)
-    }
-
-    // Evento de clique no botão "Adicionar Produto"
-    document.getElementById("addProductBtn").addEventListener("click", function(event) {
-      event.preventDefault(); // Evita o envio padrão do formulário
-
-      // Chama a função de "fade out"
-      fadeOutEffect();
-    });
-  </script>
+            // 3. Pequeno ajuste para garantir que decimais funcionem bem (troca vírgula por ponto)
+            $('#preco, #peso-estoque').on('input', function() {
+                this.value = this.value.replace(/,/g, '.');
+            });
+        });
+    </script>
 </body>
 </html>

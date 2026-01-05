@@ -1,272 +1,392 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
-    <link rel="icon" type="image/png" sizes="32x32" href="https://i.pinimg.com/750x/9a/ca/78/9aca78a052501b6445069daf6528e700.jpg"
-    <title></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>StockFlow | Lista de Produtos</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
     <style>
+        :root {
+            --primary-blue: #3575b9;
+            --soft-bg: #f3f6f9;
+            --dark-navbar: #1a1a1a;
+            --white: #ffffff;
+        }
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--soft-bg);
+            color: #334155;
         }
 
-        .container {
-            margin: 0px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #000000;
-            transition: background-color 0.3s ease;
-        }
-
-        th {
-            background-color: #f5f5f5;
-            font-weight: bold;
-            color: #333;
-        }
-
-        tr:hover {
-            background-color: #eaebff;
-        }
-
-        td:first-child {
-            font-weight: bold;
-            color: #666;
-        }
-
-        .delete-option {
-            cursor: pointer;
-            padding: 6px 12px;
-            background-color: #ff0000;
-            color: #fff;
-            border-radius: 38px;
-            transition: background-color 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: none;
-        }
-
-        .delete-option:hover {
-            background-color: #cc0000;
-        }
-
-        .delete-option svg {
-            width: 16px;
-            height: 16px;
-            fill: #fff;
-            margin-right: 6px;
-        }
-
-        .delete-text {
-            margin-bottom: 10px;
-            color: #666;
-        }
-        .search-container {
-            display: flex;
-            justify-content: center; /* Centraliza os elementos dentro do container */
-            margin-bottom: 20px;
+        /* Estilo da Tabela Modernizada */
+        .main-card {
+            background: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            padding: 30px;
             margin-top: 20px;
         }
-        .search-bar {
-            padding: 10px;
-            width: 50%;  /* Altere conforme necessário */
-            border: 1px solid #ccc;
-            border-right: none;
-            border-radius: 20px 0 0 20px;
-            font-size: 16px;
-            transition: box-shadow 0.3s ease;
+
+        .table {
+            border-collapse: separate;
+            border-spacing: 0 8px;
         }
 
-        .search-bar:focus {
-            outline: none;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        .table thead th {
+            border: none;
+            color: #64748b;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            padding: 15px;
         }
 
-        .search-button {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-left: none;
-            background: #151515d4;
-            color: #fff;
-            cursor: pointer;
-            border-radius: 0 25px 25px 0;
-            margin-right: 15px;  /* Adiciona uma margem à direita do botão de pesquisa */
+        .table tbody tr {
+            background-color: #f8fafc;
+            transition: transform 0.2s;
         }
 
-        .search-button:hover {
-            background: #151515d4;
+        .table tbody tr:hover {
+            transform: scale(1.01);
+            background-color: #f1f5f9;
         }
 
-        .search-button:active {
-            background: #151515d4;
+        .table tbody td {
+            border: none;
+            padding: 15px;
+            vertical-align: middle;
         }
 
+        .table tbody td:first-child { border-radius: 12px 0 0 12px; font-weight: bold; }
+        .table tbody td:last-child { border-radius: 0 12px 12px 0; }
+
+        /* Barra de Busca */
         .search-wrapper {
-            display: flex;
-            align-items: center;
             position: relative;
-        }
-        
-
-
-        .new-item-button {
-            padding: 10px 20px;  /* adiciona padding para aumentar o botão */
-            background-color: #007bff;  /* cor de fundo */
-            color: #fff;  /* cor do texto */
-            font-size: 16px;  /* tamanho do texto */
-            border-radius: 20px;  /* bordas arredondadas */
-            border: none;  /* remove a borda padrão */
-            cursor: pointer;  /* muda o cursor ao passar o mouse */
-            transition: background-color 0.5s ease;  /* transição suave ao passar o mouse */
-            margin-right: 10px;
+            max-width: 500px;
         }
 
-        .new-item-button:hover {
-            background-color: #0056b3;  /* cor de fundo ao passar o mouse */
+        .search-bar {
+            border-radius: 25px;
+            padding-left: 45px;
+            border: 2px solid #e2e8f0;
         }
 
-        .new-item-button:active {
-            background-color: #004085;  /* cor de fundo ao clicar */
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+        }
+
+        /* Botões */
+        .btn-new {
+            background-color: var(--primary-blue);
+            color: white;
+            border-radius: 25px;
+            padding: 10px 25px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .btn-new:hover { color: white; background-color: #2a5d94; }
+
+        .btn-delete {
+            background-color: #fee2e2;
+            color: #ef4444;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .btn-delete:hover {
+            background-color: #ef4444;
+            color: white;
+        }
+
+        /* Filtros */
+        .filter-container {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .btn-filter {
+            border-radius: 20px;
+            font-size: 0.85rem;
+            padding: 6px 18px;
+            font-weight: 500;
+            border: 2px solid #e2e8f0;
+            background: white;
+            color: #64748b;
+            transition: 0.3s;
+        }
+
+        .btn-filter.active {
+            background-color: var(--primary-blue);
+            border-color: var(--primary-blue);
+            color: white;
+        }
+
+        .badge-category {
+            background-color: #e0f2fe;
+            color: #0369a1;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="search-container">
-            <input type="text" id="searchInput" class="search-bar" placeholder="Pesquise por um produto...">
-            <button id="searchButton" class="search-button">
-                <i class="fas fa-search"></i> <!-- ícone de busca do FontAwesome -->
-            </button>
-            <a href="{% url 'inicial' %}">
-                <button id="newItemButton" class="new-item-button">
-                    Cadastrar Novo Produto
-                </button>
-            </a>            
 
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+        <div class="container"> 
+            <a class="navbar-brand fw-bold text-info" href="#">STOCKFLOW</a>
+            <div class="ms-auto">
+                <a class="btn btn-outline-light btn-sm" href="{% url 'dashboard' %}">Voltar ao Início</a>
+            </div>
         </div>
-        <table>
-            <tr>
-                <th>ID</th>
-                <th>Nome do Produto</th>
-                <th>Quantidade em Unidade</th>
-                <th>Descrição</th>
-                <th>Peso (Kg)</th>
-                <th>Preço</th>
-                <th>Fornecedor</th>
-                <th>Categoria</th>
-                <th>Data de Entrada</th>
-            </tr>
-            {% for item in cadastro_estoque reversed %}
-            <tr>
-                <td>{{ item.id }}</td>
-                <td>{{ item.nome_produto }}</td>
-                <td>{{ item.quantidade }}</td>
-                <td>{{ item.descricao }}</td>
-                <td>{{ item.peso }}</td>
-                <td>R$ {{ item.preco|floatformat:2 }}</td>
-                <td>{{ item.fornecedor }}</td>
-                <td>{{ item.categoria }}</td>
-                <td>{{ item.data_entrada|date:"d/m/Y" }}</td>
-                <td>
-                    <button class="delete-option" onclick="excluirItem(event)">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path d="M0 0h24v24H0z" fill="none"/>
-                            <path d="M19 6h-3V4h-2v2H8V4H6v2H5a1 1 0 0 0-1 1v1h16V7a1 1 0 0 0-1-1zM6 18v-7h12v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1zm5-5h2v2h-2v-2zm-4 0h2v2H7v-2zm4 0h2v2h-2v-2zm-4 0h2v2H7v-2zm8-9h-1V3a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1v1H5a3 3 0 0 0-3 3v11a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3h-2V3a1 1 0 0 0-1-1zm-2 2v1h-2V4h2zM4 19V8a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1zm5-7h4v2H9v-2z"/>
-                        </svg>
-                        Excluir
-                    </button>
-                </td>
-            </tr>
-            {% endfor %}
-        </table>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <div class="main-card p-3 border-start border-primary border-5">
+                    <h6 class="text-muted small fw-bold">PRODUTOS CADASTRADOS</h6>
+                    <h3 class="fw-bold mb-0">{{ total_itens }}</h3>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="main-card p-3 border-start border-success border-5">
+                    <h6 class="text-muted small fw-bold">TOTAL DE UNIDADES</h6>
+                    <h3 class="fw-bold mb-0">{{ quantidade_total }} <span class="small text-muted" style="font-size: 0.5em;">un</span></h3>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="main-card p-3 border-start border-warning border-5">
+                    <h6 class="text-muted small fw-bold">VALOR PATRIMONIAL</h6>
+                    <h3 class="fw-bold mb-0">R$ {{ valor_total|floatformat:2 }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+            <div class="search-wrapper w-100">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="searchInput" class="form-control search-bar shadow-sm" placeholder="Pesquisar produto pelo nome...">
+            </div>
+            
+            <a href="{% url 'inicial' %}" class="btn btn-new shadow-sm text-decoration-none">
+                <i class="fas fa-plus me-2"></i> Novo Produto
+            </a>
+        </div>
+
+        <div class="filter-container">
+            <button class="btn btn-filter active" data-category="todos">Todos</button>
+            <button class="btn btn-filter" data-category="Eletrônicos">Eletrônicos</button>
+            <button class="btn btn-filter" data-category="Alimentos">Alimentos</button>
+            <button class="btn btn-filter" data-category="Bebidas">Bebidas</button>
+            <button class="btn btn-filter" data-category="Higiene">Higiene</button>
+            <button class="btn btn-filter" data-category="Outros">Outros</button>
+        </div>
+
+        <div class="main-card">
+            <div class="table-responsive">
+                <table class="table" id="productTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Produto</th>
+                            <th>Qtd</th>
+                            <th>Peso</th>
+                            <th>Preço</th>
+                            <th>Fornecedor</th>
+                            <th>Categoria</th>
+                            <th>Data</th>
+                            <th class="text-center">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in cadastro_estoque reversed %}
+                        <tr data-category="{{ item.categoria }}">
+                            <td>#{{ item.id }}</td>
+                            <td><strong>{{ item.nome_produto }}</strong></td>
+                            <td>{{ item.quantidade }} un</td>
+                            <td>{{ item.peso }}kg</td>
+                            <td>R$ {{ item.preco|floatformat:2 }}</td>
+                            <td><small>{{ item.fornecedor }}</small></td>
+                            <td><span class="badge-category">{{ item.categoria }}</span></td>
+                            <td>{{ item.data_entrada|date:"d/m/Y" }}</td>
+                            <td class="text-center">
+
+                                <button class="btn btn-sm btn-outline-primary me-2" 
+                                        style="border-radius: 8px; font-weight: 600;"
+                                        onclick="abrirModalEdicao('{{ item.id }}', '{{ item.nome_produto }}', '{{ item.quantidade }}', '{{ item.preco }}')">
+                                    <i class="fas fa-edit me-1"></i> Editar
+                                </button>
+                                
+                                <button class="btn-delete" onclick="excluirItem(event, '{{ item.id }}')">
+                                    <i class="fas fa-trash-alt me-1"></i> Excluir
+                                </button>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="9" class="text-center py-5 text-muted">Nenhum produto cadastrado.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-</body>
-<script>
-    function excluirItem(event) {
-        console.log("Função excluirItem chamada!"); // Adicione esta linha
-        const row = event.target.closest('tr');
-        const itemId = row.cells[0].textContent;
+    <div class="modal fade" id="modalEditar" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 20px; border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+            <div class="modal-header" style="border: none; padding: 25px 30px 10px;">
+                <h5 class="modal-title fw-bold" style="color: var(--primary-blue);">Editar Produto</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="formEditar" method="POST">
+                {% csrf_token %}
+                <div class="modal-body" style="padding: 20px 30px;">
+                    <input type="hidden" id="edit-id" name="id">
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Nome do Produto</label>
+                        <input type="text" class="form-control" id="edit-nome" name="nome_produto" style="border-radius: 10px; background: #f8fafc;">
+                    </div>
+                    <div class="row">
+                        <div class="col-6 mb-3">
+                            <label class="form-label small fw-bold">Quantidade</label>
+                            <input type="number" class="form-control" id="edit-qtd" name="quantidade" style="border-radius: 10px; background: #f8fafc;">
+                        </div>
+                        <div class="col-6 mb-3">
+                            <label class="form-label small fw-bold">Preço (R$)</label>
+                            <input type="text" class="form-control" id="edit-preco" name="preco" style="border-radius: 10px; background: #f8fafc;">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="border: none; padding: 10px 30px 30px;">
+                    <button type="button" class="btn btn-light fw-bold" data-bs-dismiss="modal" style="border-radius: 12px; color: #64748b;">Cancelar</button>
+                    <button type="submit" class="btn btn-primary fw-bold" style="border-radius: 12px; padding: 10px 25px; background-color: var(--primary-blue);">Salvar Alterações</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
 
-    // Fazer uma requisição HTTP DELETE para o servidor
-    fetch(`/api/estoque/${itemId}/`, {  // A URL precisa ser atualizada para o caminho correto da API
-        method: 'DELETE',
-        headers: {
-            'X-CSRFToken': getCookie('csrftoken')  // Você precisa do token CSRF para autenticar a solicitação DELETE
+        function abrirModalEdicao(id, nome, qtd, preco) {
+            // 1. Preenche os campos do modal
+            document.getElementById('edit-id').value = id;
+            document.getElementById('edit-nome').value = nome;
+            document.getElementById('edit-qtd').value = qtd;
+            
+            // Limpa o preço para o input (tira o R$ e ajusta a vírgula)
+            let precoLimpo = preco.replace('R$', '').trim().replace(',', '.');
+            document.getElementById('edit-preco').value = precoLimpo;
+            
+            // 2. Configura para onde o formulário deve enviar os dados
+            document.getElementById('formEditar').action = `/editar-produto/${id}/`;
+            
+            // 3. Abre o modal usando o comando do Bootstrap
+            var modalElement = document.getElementById('modalEditar');
+            var myModal = new bootstrap.Modal(modalElement);
+            myModal.show();         
         }
-    })
-    .then(response => {
-        if (response.ok) {
-            // Se a requisição foi bem sucedida, remover a linha da tabela
-            row.remove();
-        } else {
-            throw new Error(`Request failed: ${response.status}`);
+        // Lógica de Filtro e Busca Integrada
+        const searchInput = document.querySelector('#searchInput');
+        const filterButtons = document.querySelectorAll('.btn-filter');
+        const rows = document.querySelectorAll('#productTable tbody tr');
+
+        function filtrarProdutos() {
+            const searchText = searchInput.value.toLowerCase();
+            const activeCategory = document.querySelector('.btn-filter.active').getAttribute('data-category');
+
+            rows.forEach(row => {
+                const productName = row.cells[1].textContent.toLowerCase();
+                const productCategory = row.getAttribute('data-category');
+                
+                const matchesSearch = productName.includes(searchText);
+                const matchesCategory = activeCategory === 'todos' || productCategory === activeCategory;
+
+                if (matchesSearch && matchesCategory) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
         }
-    })
-    .catch(error => {
-        console.error(error);
-    });
-}
 
-function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
+        // Evento da Barra de Busca
+        searchInput.addEventListener('keyup', filtrarProdutos);
 
-document.querySelector('#searchInput').addEventListener('keyup', function(e) {
-    var table = document.querySelector('table');
-    var rows = table.querySelectorAll('tr');
-    var text = e.target.value.toLowerCase();
-
-    // Começa no índice 1 para ignorar a linha do cabeçalho
-    for (var i = 1; i < rows.length; i++) {
-        var productName = rows[i].cells[1].textContent.toLowerCase();
-        rows[i].style.display = productName.includes(text) ? '' : 'none';
-    }
-});
-
-const searchInput = document.getElementById('searchInput');
-const searchButton = document.getElementById('searchButton');
-
-// Evento para o botão de pesquisa
-searchButton.addEventListener('click', function() {
-    performSearch(searchInput.value);
-});
-
-// Evento para a tecla 'Enter' na barra de pesquisa
-searchInput.addEventListener('keyup', function(event) {
-    if (event.keyCode === 13) {  // 'Enter' tem keyCode 13
-        performSearch(searchInput.value);
-    }
-});
-
-// Função para realizar a pesquisa
-function performSearch(query) {
-    // implemente a lógica de pesquisa aqui...
-    console.log(`Buscando por "${query}"`);
-}
-
-const newItemButton = document.getElementById('newItemButton');
-        newItemButton.addEventListener('click', function() {
-            // Aqui você pode redirecionar para a página de cadastramento de produtos
-            window.location.href = '/inicial';  // atualize esta URL para a página correta
+        // Evento dos Botões de Filtro
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                filterButtons.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                filtrarProdutos();
+            });
         });
 
-</script>
+        function excluirItem(event, itemId) {
+            // Identifica a linha da tabela (tr) imediatamente
+            const row = event.target.closest('tr');
+
+            // Inicia a animação visual antes mesmo da resposta do servidor (UX de Resposta Rápida)
+            row.style.transition = "0.4s cubic-bezier(0.4, 0, 0.2, 1)";
+            row.style.opacity = "0";
+            row.style.transform = "translateX(30px)";
+
+            fetch(`/api/estoque/${itemId}/`, {
+                method: 'DELETE',
+                headers: { 'X-CSRFToken': getCookie('csrftoken') }
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Remove o elemento do HTML após o fim da animação
+                    setTimeout(() => row.remove(), 400);
+                } else {
+                    // Se der erro, volta a linha ao normal para o usuário saber que falhou
+                    row.style.opacity = "1";
+                    row.style.transform = "translateX(0)";
+                    alert("Erro ao excluir o item no servidor.");
+                }
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                // Em caso de erro de rede, restaura a linha
+                row.style.opacity = "1";
+                row.style.transform = "translateX(0)";
+            }); 
+        }
+
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    </script>
+</body>
 </html>

@@ -9,6 +9,7 @@ from django.contrib.auth import authenticate, login as auth_login
 from .models import Login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.db.models import Sum, F
 
 
 def home(request):
@@ -20,14 +21,39 @@ def cadastro(request):
 def inicial(request):
     return render(request, 'inicial.html')
 
+@login_required
+def dashboard(request):
+    # Aqui estamos pegando o nome do usuário para exibir o "Olá, Gestor!" de forma personalizada
+    context = {
+        'nome_usuario': request.user.username
+    }
+    return render(request, 'dashboard.html', context)
+
 from django.shortcuts import render, redirect
 from .models import Gerenciamento
 
-@login_required  # Adicione o decorador para garantir que apenas usuários autenticados possam acessar esta view
+def editar_produto(request, pk):
+    # Busca o produto garantindo que pertence ao usuário logado
+    produto = Gerenciamento.objects.get(pk=pk, user=request.user)
+    
+    if request.method == 'POST':
+        # Atualiza os campos com o que veio do formulário do Modal
+        produto.nome_produto = request.POST.get('nome_produto')
+        produto.quantidade = request.POST.get('quantidade')
+        
+        # Trata o preço (troca vírgula por ponto para o banco de dados aceitar)
+        preco_raw = request.POST.get('preco').replace('R$', '').replace(',', '.').strip()
+        produto.preco = preco_raw
+        
+        produto.save()
+        return redirect('salvo') # Redireciona de volta para a lista
+    
+@login_required
 def salvo(request):
     if request.method == 'POST':
+        # --- PARTE PARA SALVAR NOVO PRODUTO ---
         gere = Gerenciamento()
-        gere.user = request.user  # Associe o usuário autenticado ao produto
+        gere.user = request.user
         gere.nome_produto = request.POST.get('nome-produto')
         gere.quantidade = request.POST.get('quantidade')
         gere.descricao = request.POST.get('descricao')
@@ -37,15 +63,32 @@ def salvo(request):
         gere.categoria = request.POST.get('categoria')
         gere.data_entrada = request.POST.get('data-entrada')
         gere.save()
-
-        return redirect('salvo')  # substitua por nome da URL que mostra a lista de produtos
+        return redirect('salvo')
 
     else:
-        cadastro_estoque = {
-            'cadastro_estoque': Gerenciamento.objects.filter(user=request.user)  # Filtra os produtos pelo usuário autenticado
+        # --- PARTE PARA EXIBIR A LISTA E OS CARDS ---
+        produtos = Gerenciamento.objects.filter(user=request.user)
+        
+        # Cálculos para os Cards (KPIs)
+        total_itens = produtos.count()
+        quantidade_total = produtos.aggregate(Sum('quantidade'))['quantidade__sum'] or 0
+        
+        # Cálculo do Valor Total (Preço * Quantidade)
+        valor_total = produtos.aggregate(
+            total=Sum(F('preco') * F('quantidade'))
+        )['total'] or 0
+
+        context = {
+            'cadastro_estoque': produtos.order_by('-id'),
+            'total_itens': total_itens,
+            'quantidade_total': quantidade_total,
+            'valor_total': valor_total,
         }
 
-        return render(request, 'estoque.html', cadastro_estoque)
+        return render(request, 'estoque.html', context)
+
+@login_required  # Adicione o decorador para garantir que apenas usuários autenticados possam acessar esta view
+
 
 
 def avaliar(request):
@@ -141,7 +184,7 @@ def login_view(request):
                 login_instance = Login(usuario=username, senha=password)
                 login_instance.save()
 
-                return redirect('inicial')
+                return redirect('dashboard')
             else:
                 error_message = 'Usuário ou senha inválidos.'
     
