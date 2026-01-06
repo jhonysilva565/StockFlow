@@ -1,1 +1,1 @@
-web: gunicorn gerencia_plus.wsgi
+web: gunicorn gerencia_plus.wsgigit
