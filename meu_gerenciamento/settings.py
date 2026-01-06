@@ -9,7 +9,7 @@ SECRET_KEY = 'django-insecure-d@zvbv4y89a@qbhpvb&#=_$myh_z-^0ru+t^wbj#h&+vz$_gb3
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['stockflow-5iie.onrender.com', 'localhost', '127.0.0.1']
 
 # --- CONFIGURAÇÃO DE APLICATIVOS ---
 INSTALLED_APPS = [
