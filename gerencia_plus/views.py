@@ -23,11 +23,13 @@ def inicial(request):
 
 @login_required
 def dashboard(request):
-    # Aqui estamos pegando o nome do usuário para exibir o "Olá, Gestor!" de forma personalizada
-    context = {
-        'nome_usuario': request.user.username
-    }
-    return render(request, 'dashboard.html', context)
+    # Isso faz o cálculo direto no Banco de Dados (Postgres), muito mais rápido!
+    resultado = Gerenciamento.objects.aggregate(
+        total=Sum(F('preco') * F('quantidade'))
+    )
+    valor_total = resultado['total'] or 0  # Se estiver vazio, retorna 0
+    
+    return render(request, 'dashboard.html', {'valor_total': valor_total})
 
 from django.shortcuts import render, redirect
 from .models import Gerenciamento

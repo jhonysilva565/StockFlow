@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StockFlow | Login</title>
     
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <meta name="google-signin-client_id" content="394642464859-hf0v5m51m5tq76mvqe77ajk7aaeu8inm.apps.googleusercontent.com">
+    {% load socialaccount %}
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -46,9 +45,9 @@
             border: 1px solid rgba(255, 255, 255, 0.7);
             position: relative;
             overflow: hidden;
+            animation: slideUp 0.6s ease-out;
         }
 
-        /* Detalhe sutil no topo do card */
         .login-card::before {
             content: "";
             position: absolute;
@@ -81,10 +80,7 @@
             font-weight: 500;
         }
 
-        /* --- INPUTS REDESENHADOS --- */
-        .field-container {
-            margin-bottom: 24px;
-        }
+        .field-container { margin-bottom: 24px; }
 
         .field-label {
             display: block;
@@ -108,7 +104,7 @@
             left: 20px;
             color: #94a3b8;
             font-size: 18px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
         }
 
         .form-input {
@@ -126,23 +122,12 @@
             box-sizing: border-box;
         }
 
-        .form-input::placeholder {
-            color: #94a3b8;
-            font-weight: 400;
-        }
-
         .form-input:focus {
             background: var(--white);
             border-color: var(--brand-color);
             box-shadow: 0 10px 20px -5px rgba(36, 76, 237, 0.15);
         }
 
-        .form-input:focus + i {
-            color: var(--brand-color);
-            transform: scale(1.1);
-        }
-
-        /* Toggle Senha */
         .pass-toggle {
             position: absolute;
             right: 18px;
@@ -155,9 +140,7 @@
             padding: 8px;
             text-transform: uppercase;
             letter-spacing: 1px;
-            border-radius: 8px;
         }
-        .pass-toggle:hover { background: rgba(36, 76, 237, 0.05); }
 
         .btn-primary {
             width: 100%;
@@ -202,9 +185,28 @@
         }
         .divider span { padding: 0 15px; }
 
-        .google-box {
+        /* NOVO ESTILO DO BOTÃO GOOGLE */
+        .btn-google {
+            width: 100%;
             display: flex;
+            align-items: center;
             justify-content: center;
+            gap: 12px;
+            padding: 14px;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            background: white;
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-google:hover {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+            transform: scale(1.02);
         }
 
         .footer-action {
@@ -217,18 +219,12 @@
             text-decoration: none;
             font-size: 14px;
             font-weight: 600;
-            transition: 0.3s;
         }
 
-        .footer-action a:hover { color: var(--brand-color); }
-
-        /* Animação de entrada */
         @keyframes slideUp {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        .login-card { animation: slideUp 0.6s ease-out; }
-
     </style>
 </head>
 <body>
@@ -265,7 +261,7 @@
 
             {% if error_message %}
                 <div style="color: #ef4444; font-size: 13px; text-align: center; margin-top: 15px; font-weight: 600;">
-                    <i class="fas fa-circle-exclamation mr-1"></i> Usuário ou senha incorretos
+                    <i class="fas fa-circle-exclamation"></i> Usuário ou senha incorretos
                 </div>
             {% endif %}
         </form>
@@ -273,11 +269,14 @@
         <div class="divider"><span>Segurança Google</span></div>
 
         <div class="google-box">
-            <div class="g-signin2" data-onsuccess="onSignIn"></div>
+            <a href="{% provider_login_url 'google' %}" class="btn-google">
+                <img src="https://fonts.gstatic.com/s/i/productlogos/googleg/v6/24px.svg" alt="Google" style="width: 20px;">
+                Continuar com Google
+            </a>
         </div>
 
         <div class="footer-action">
-            <a href="/"><i class="fas fa-arrow-left-long mr-2"></i> Retornar ao portal</a>
+            <a href="/"><i class="fas fa-arrow-left-long"></i> Retornar ao portal</a>
         </div>
     </div>
 
@@ -293,7 +292,6 @@
                 b.textContent = "Ver";
             }
         }
-        function onSignIn(googleUser) {}
     </script>
 </body>
 </html>

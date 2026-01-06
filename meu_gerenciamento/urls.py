@@ -1,5 +1,6 @@
-from django.urls import path
+from django.urls import path, include
 from gerencia_plus import views
+from django.contrib import admin
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -18,5 +19,7 @@ urlpatterns = [
     path('termos-de-servico/', views.termos_de_servico, name='termos_de_servico'),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('editar-produto/<int:pk>/', views.editar_produto, name='editar_produto'),
+    path('accounts/', include('allauth.urls')),
+    path('admin/', admin.site.urls),
 ]
 

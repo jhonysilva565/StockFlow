@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StockFlow | Confirmar Acesso</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --brand-color: #244ced;
+            --brand-gradient: linear-gradient(135deg, #244ced 0%, #0a2eb4 100%);
+            --bg-color: #f8fafc;
+            --text-main: #1e293b;
+            --white: #ffffff;
+        }
+
+        body {
+            margin: 0;
+            background-color: var(--bg-color);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .confirm-card {
+            background: var(--white);
+            width: 100%;
+            max-width: 400px;
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+
+        .icon-circle {
+            width: 80px;
+            height: 80px;
+            background: #eff6ff;
+            color: var(--brand-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin: 0 auto 24px;
+        }
+
+        h1 { font-size: 22px; color: var(--text-main); margin-bottom: 12px; font-weight: 800; }
+        p { color: #64748b; font-size: 15px; margin-bottom: 32px; line-height: 1.5; }
+
+        .btn-confirm {
+            width: 100%;
+            background: var(--brand-gradient);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .btn-confirm:hover { transform: scale(1.02); }
+
+        .btn-cancel {
+            display: block;
+            margin-top: 20px;
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="confirm-card">
+        <div class="icon-circle">
+            <i class="fab fa-google"></i>
+        </div>
+        
+        <h1>Confirmar Acesso</h1>
+        <p>Você está prestes a entrar no <strong>StockFlow</strong> usando sua conta Google. Deseja prosseguir?</p>
+
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn-confirm">
+                Sim, continuar <i class="fas fa-arrow-right" style="margin-left: 8px; font-size: 12px;"></i>
+            </button>
+        </form>
+
+        <a href="/login/" class="btn-cancel">Cancelar e voltar</a>
+    </div>
+</body>
+</html>

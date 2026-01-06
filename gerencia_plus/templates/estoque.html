@@ -176,7 +176,8 @@
             <div class="col-md-4">
                 <div class="main-card p-3 border-start border-warning border-5">
                     <h6 class="text-muted small fw-bold">VALOR PATRIMONIAL</h6>
-                    <h3 class="fw-bold mb-0">R$ {{ valor_total|floatformat:2 }}</h3>
+                    {% load humanize %}
+                    <h3 class="fw-bold mb-0">R$ {{ valor_total|intcomma }}</h3>
                 </div>
             </div>
         </div>

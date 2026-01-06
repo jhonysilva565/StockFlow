@@ -11,11 +11,15 @@
     <style>
         :root {
             --brand-color: #244ced;
+            --brand-hover: #1a3bbd;
             --bg-color: #f8fafc;
             --white: #ffffff;
             --text-main: #1e293b;
             --text-muted: #64748b;
             --sidebar-width: 260px;
+            --sidebar-collapsed-width: 80px;
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            --danger: #ef4444;
         }
 
         body {
@@ -24,6 +28,7 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
             display: flex;
             min-height: 100vh;
+            color: var(--text-main);
         }
 
         /* --- SIDEBAR --- */
@@ -33,215 +38,335 @@
             border-right: 1px solid #e2e8f0;
             display: flex;
             flex-direction: column;
-            padding: 30px 20px;
+            padding: 30px 15px;
             position: fixed;
             height: 100vh;
+            left: 0;
+            transition: var(--transition);
+            z-index: 1000;
+            overflow: hidden;
+        }
+
+        .sidebar.collapsed { width: var(--sidebar-collapsed-width); }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            padding: 0 10px;
         }
 
         .logo {
             font-weight: 800;
-            font-size: 22px;
+            font-size: 20px;
             color: var(--brand-color);
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 40px;
-            padding-left: 10px;
+            gap: 12px;
+            white-space: nowrap;
         }
 
-        .nav-menu {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            flex-grow: 1;
+        .sidebar.collapsed .logo span { display: none; }
+
+        #toggle-sidebar {
+            background: rgba(36, 76, 237, 0.05);
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 8px;
+            cursor: pointer;
+            color: var(--brand-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
         }
 
-        .nav-item {
-            margin-bottom: 8px;
-        }
+        #toggle-sidebar:hover { background: var(--brand-color); color: white; }
+
+        .nav-menu { list-style: none; padding: 0; margin: 0; flex-grow: 1; }
 
         .nav-link {
             text-decoration: none;
             color: var(--text-muted);
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 12px 15px;
+            gap: 15px;
+            padding: 14px 15px;
             border-radius: 12px;
             font-weight: 600;
             font-size: 14px;
             transition: 0.3s;
+            white-space: nowrap;
+            margin-bottom: 4px;
+            cursor: pointer;
         }
+
+        .nav-link i { font-size: 18px; min-width: 22px; text-align: center; }
 
         .nav-link:hover, .nav-link.active {
             background: rgba(36, 76, 237, 0.08);
             color: var(--brand-color);
         }
 
+        .sidebar.collapsed .nav-link span { display: none; }
+
         /* --- CONTEÚDO PRINCIPAL --- */
         .main-content {
             margin-left: var(--sidebar-width);
             flex-grow: 1;
-            padding: 40px 60px;
+            padding: 50px 60px;
+            transition: var(--transition);
+            max-width: 1400px;
         }
 
-        .header-actions {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 40px;
-        }
+        .main-content.expanded { margin-left: var(--sidebar-collapsed-width); }
 
-        .welcome-msg h2 {
-            margin: 0;
-            font-weight: 800;
-            color: var(--text-main);
-        }
+        .welcome-msg h2 { margin: 0; font-size: 28px; font-weight: 800; color: var(--text-main); }
+        .welcome-msg p { margin: 8px 0 0; font-size: 16px; color: var(--text-muted); }
 
-        .welcome-msg p {
-            margin: 5px 0 0;
-            color: var(--text-muted);
-        }
-
-        /* --- GRID DE BOTÕES DE AÇÃO --- */
+        /* --- GRID DE AÇÕES --- */
         .actions-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px;
+            margin-top: 50px;
         }
 
         .action-card {
             background: var(--white);
-            padding: 30px;
-            border-radius: 24px;
+            padding: 40px;
+            border-radius: 28px;
             border: 1px solid #e2e8f0;
             text-decoration: none;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             flex-direction: column;
-            align-items: flex-start;
-            gap: 15px;
+            gap: 20px;
         }
 
         .action-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.08);
             border-color: var(--brand-color);
         }
 
         .icon-box {
-            width: 50px;
-            height: 50px;
-            border-radius: 14px;
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
+            font-size: 24px;
         }
 
-        /* Cores diferentes para cada ação */
+        .action-card h3 { margin: 0; font-size: 19px; font-weight: 700; color: var(--text-main); }
+        .action-card p { margin: 0; font-size: 14px; line-height: 1.6; color: var(--text-muted); }
+
         .bg-blue { background: rgba(36, 76, 237, 0.1); color: var(--brand-color); }
         .bg-green { background: rgba(34, 197, 94, 0.1); color: #22c55e; }
         .bg-orange { background: rgba(249, 115, 22, 0.1); color: #f97316; }
         .bg-purple { background: rgba(168, 85, 247, 0.1); color: #a855f7; }
 
-        .action-card h3 {
-            margin: 0;
-            font-size: 18px;
-            color: var(--text-main);
-            font-weight: 700;
+        /* --- MODAL DE LOGOUT --- */
+        .logout-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
         }
 
-        .action-card p {
-            margin: 0;
-            font-size: 13px;
-            color: var(--text-muted);
-            line-height: 1.5;
+        .logout-modal.active {
+            opacity: 1;
+            visibility: visible;
         }
 
-        .btn-logout {
-            margin-top: auto;
-            color: #ef4444;
-            border: 1px solid #fee2e2;
+        .modal-content {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 32px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            transform: scale(0.9);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        .btn-logout:hover {
+        .logout-modal.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-icon {
+            width: 70px;
+            height: 70px;
             background: #fef2f2;
-            color: #b91c1c;
+            color: var(--danger);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            margin: 0 auto 24px;
+        }
+
+        .modal-content h3 { font-size: 22px; margin: 0 0 12px; font-weight: 800; }
+        .modal-content p { color: var(--text-muted); margin-bottom: 32px; font-size: 15px; }
+
+        .modal-buttons { display: flex; gap: 12px; }
+
+        .btn {
+            flex: 1;
+            padding: 14px;
+            border-radius: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            font-family: inherit;
+            transition: 0.2s;
+            font-size: 15px;
+            text-decoration: none;
+        }
+
+        .btn-cancel { background: #f1f5f9; color: var(--text-main); }
+        .btn-cancel:hover { background: #e2e8f0; }
+
+        .btn-confirm { background: var(--danger); color: var(--white); }
+        .btn-confirm:hover { background: #dc2626; transform: translateY(-2px); }
+
+        @media (max-width: 768px) {
+            .main-content { padding: 30px 20px; }
+            .actions-grid { gap: 20px; }
         }
     </style>
 </head>
 <body>
 
+    <div class="logout-modal" id="logoutModal">
+        <div class="modal-content">
+            <div class="modal-icon">
+                <i class="fas fa-sign-out-alt"></i>
+            </div>
+            <h3>Sair do Painel?</h3>
+            <p>Tem certeza que deseja encerrar sua sessão no StockFlow agora?</p>
+            <div class="modal-buttons">
+                <button class="btn btn-cancel" onclick="closeLogoutModal()">Cancelar</button>
+                <a href="{% url 'home' %}" class="btn btn-confirm">Sair agora</a>
+            </div>
+        </div>
+    </div>
+
     <aside class="sidebar">
-        <div class="logo">
-            <i class="fas fa-layer-group"></i> StockFlow
+        <div class="sidebar-header">
+            <button id="toggle-sidebar" title="Recolher Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="logo">
+                <i class="fas fa-layer-group"></i>
+                <span>StockFlow</span>
+            </div>
         </div>
         
         <nav class="nav-menu">
-            <div class="nav-item">
-                <a href="#" class="nav-link active"><i class="fas fa-home"></i> Dashboard</a>
-            </div>
-            <div class="nav-item">
-                <a href="{% url 'salvo' %}" class="nav-link"><i class="fas fa-boxes-stacked"></i> Ver Estoque</a>
-            </div>
-            <div class="nav-item">
-                <a href="#" class="nav-link"><i class="fas fa-chart-line"></i> Relatórios</a>
-            </div>
-            <div class="nav-item">
-                <a href="#" class="nav-link"><i class="fas fa-gear"></i> Configurações</a>
+            <a href="#" class="nav-link active">
+                <i class="fas fa-home"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="{% url 'salvo' %}" class="nav-link">
+                <i class="fas fa-boxes-stacked"></i>
+                <span>Ver Estoque</span>
+            </a>
+            <a href="#" class="nav-link">
+                <i class="fas fa-chart-line"></i>
+                <span>Relatórios</span>
+            </a>
+            <a href="#" class="nav-link">
+                <i class="fas fa-gear"></i>
+                <span>Configurações</span>
+            </a>
+            
+            <div style="margin-top: 20px; border-top: 1px solid #f1f5f9; padding-top: 20px;">
+                <a onclick="openLogoutModal()" class="nav-link" style="color: var(--danger);">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Sair do Painel</span>
+                </a>
             </div>
         </nav>
-
-        <a href="/logout" class="nav-link btn-logout">
-            <i class="fas fa-right-from-bracket"></i> Sair da Conta
-        </a>
     </aside>
 
     <main class="main-content">
-        <header class="header-actions">
-            <div class="welcome-msg">
-                <h2>Olá, Gestor! 👋</h2>
-                <p>O que você deseja fazer hoje no StockFlow?</p>
-            </div>
+        <header class="welcome-msg">
+            <h2>Olá, Gestor! 👋</h2>
+            <p>O que você deseja fazer hoje no StockFlow?</p>
         </header>
 
         <div class="actions-grid">
-            
             <a href="{% url 'inicial' %}" class="action-card">
-                <div class="icon-box bg-blue">
-                    <i class="fas fa-plus"></i>
-                </div>
+                <div class="icon-box bg-blue"><i class="fas fa-plus"></i></div>
                 <h3>Adicionar Produtos</h3>
-                <p>Cadastre novos itens no seu inventário com fotos e detalhes.</p>
+                <p>Cadastre novos itens no seu inventário com fotos, categorias e detalhes técnicos.</p>
             </a>
 
             <a href="#" class="action-card">
-                <div class="icon-box bg-green">
-                    <i class="fas fa-right-left"></i>
-                </div>
+                <div class="icon-box bg-green"><i class="fas fa-right-left"></i></div>
                 <h3>Movimentação</h3>
-                <p>Registre entradas e saídas rápidas de itens em estoque.</p>
+                <p>Registre entradas e saídas rápidas de mercadorias e mantenha o fluxo atualizado.</p>
             </a>
 
             <a href="#" class="action-card">
-                <div class="icon-box bg-orange">
-                    <i class="fas fa-triangle-exclamation"></i>
-                </div>
+                <div class="icon-box bg-orange"><i class="fas fa-triangle-exclamation"></i></div>
                 <h3>Estoque Baixo</h3>
-                <p>Veja quais produtos precisam ser repostos imediatamente.</p>
+                <p>Monitore produtos atingindo o nível crítico e gere alertas de reposição automática.</p>
             </a>
 
             <a href="#" class="action-card">
-                <div class="icon-box bg-purple">
-                    <i class="fas fa-truck-fast"></i>
-                </div>
+                <div class="icon-box bg-purple"><i class="fas fa-truck-fast"></i></div>
                 <h3>Fornecedores</h3>
-                <p>Gerencie sua lista de contatos e parceiros logísticos.</p>
+                <p>Acesse contatos de parceiros logísticos e gerencie pedidos de compra pendentes.</p>
             </a>
-
         </div>
     </main>
+
+    <script>
+        // Lógica do Sidebar
+        const btnToggle = document.getElementById('toggle-sidebar');
+        const sidebar = document.querySelector('.sidebar');
+        const mainContent = document.querySelector('.main-content');
+
+        btnToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('collapsed');
+            mainContent.classList.toggle('expanded');
+        });
+
+        // Lógica do Modal de Logout
+        const logoutModal = document.getElementById('logoutModal');
+
+        function openLogoutModal() {
+            logoutModal.classList.add('active');
+        }
+
+        function closeLogoutModal() {
+            logoutModal.classList.remove('active');
+        }
+
+        // Fechar modal ao clicar fora dele
+        window.onclick = function(event) {
+            if (event.target == logoutModal) {
+                closeLogoutModal();
+            }
+        }
+    </script>
 
 </body>
 </html>

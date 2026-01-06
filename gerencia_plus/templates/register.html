@@ -1,115 +1,142 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" sizes="32x32" href="https://i.pinimg.com/750x/9a/ca/78/9aca78a052501b6445069daf6528e700.jpg">
-    <title>Registre-se</title>
+    <title>StockFlow | Criar Conta</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
+            background-color: #f0f4f8;
+            font-family: 'Inter', sans-serif;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             margin: 0;
-            padding: 0;
         }
 
-        h1 {
+        .auth-card {
+            background: white;
+            padding: 40px;
+            border-radius: 40px; /* Estilo arredondado do seu print */
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            width: 100%;
+            max-width: 480px;
             text-align: center;
-            margin-top: 85px;
-            color: #333333;
+            border-top: 8px solid #1a4bc1; /* Linha azul do topo */
         }
 
-        form {
-            max-width: 400px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        .logo-section h2 {
+            font-weight: 700;
+            font-size: 26px;
+            color: #1a1a1a;
+            margin-bottom: 5px;
         }
 
-        label {
-            display: block;
-            margin-bottom: 10px;
-            font-weight: bold;
-            color: #333333;
-        }
-
-        input[type="text"],
-        input[type="email"],
-        input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #cccccc;
-            border-radius: 13px;
-            box-sizing: border-box;
-            margin-bottom: 10px;
-            color: #333333;
-        }
-
-        button[type="submit"] {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            background-color: #007BFF;
-            color: #ffffff;
-            border: none;
-            border-radius: 7px;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.1s ease;
-        }
-
-        button[type="submit"]:hover {
-            background-color: #0056b3;
-            transform: scale(1.05);
-        }
-
-        .error {
-            color: #FF0000;
+        .logo-section p {
             font-size: 14px;
-            margin-top: 5px;
+            color: #666;
+            margin-bottom: 30px;
         }
 
-        .info {
+        .form-label {
+            display: block;
+            text-align: left;
             font-size: 12px;
-            color: #777777;
+            font-weight: 700;
+            color: #444;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            margin-left: 5px;
         }
 
-        .return-btn {
-            margin-top: 20px;
-            text-align: center;
-            font-weight: bold;
+        .input-group-custom {
+            background-color: #eef2f7; /* Fundo azulado dos inputs */
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            padding: 5px 15px;
+            margin-bottom: 10px;
+            border: 2px solid transparent;
+            transition: all 0.3s;
         }
 
-        .return-btn a {
-            text-decoration: none;
-            color: #212121;
-            transition: color 0.3s ease;
+        .input-group-custom:focus-within {
+            border-color: #cbd5e0;
+            background-color: #fff;
         }
 
-        .return-btn a:hover {
-            color: #0056b3;
+        .input-group-custom i {
+            color: #94a3b8;
+            margin-right: 12px;
         }
 
-        .password-icon {
-            position: relative;
-            top: -34px;
-            right: 10px;
+        .input-group-custom input {
+            background: transparent;
+            border: none;
+            padding: 12px 0;
+            width: 100%;
+            outline: none;
+            font-size: 15px;
+        }
+
+        .info-text {
+            text-align: left;
+            font-size: 11px;
+            color: #777;
+            margin-bottom: 15px;
+            margin-left: 5px;
+        }
+
+        .btn-primary-custom {
+            background: linear-gradient(90deg, #2563eb 0%, #1d4ed8 100%);
+            border: none;
+            border-radius: 15px;
+            padding: 15px;
+            width: 100%;
+            color: white;
+            font-weight: 700;
+            font-size: 16px;
             cursor: pointer;
+            margin-top: 10px;
+            transition: transform 0.2s;
         }
 
-        
+        .btn-primary-custom:hover {
+            transform: scale(1.02);
+        }
+
+        .return-link {
+            display: block;
+            margin-top: 25px;
+            text-decoration: none;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .error-msg {
+            color: #e11d48;
+            font-size: 13px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
     </style>
+
     <script>
         function togglePasswordVisibility() {
             var passwordInput = document.getElementById("password");
-            var passwordIcon = document.getElementById("password-icon");
-            
+            var passwordIcon = document.getElementById("eye-icon");
             if (passwordInput.type === "password") {
                 passwordInput.type = "text";
-                passwordIcon.className = "password-icon far fa-eye-slash";
+                passwordIcon.classList.replace("fa-eye", "fa-eye-slash");
             } else {
                 passwordInput.type = "password";
-                passwordIcon.className = "password-icon far fa-eye";
+                passwordIcon.classList.replace("fa-eye-slash", "fa-eye");
             }
         }
 
@@ -123,45 +150,58 @@
                 errorDiv.textContent = "Por favor, preencha todos os campos.";
                 return false;
             }
-            
             if (password !== confirm_password) {
-                errorDiv.textContent = "As senhas não coincidem. Por favor, digite a mesma senha nos dois campos de senha.";
+                errorDiv.textContent = "As senhas não coincidem.";
                 return false;
             }
-            
             if (password.length < 3) {
                 errorDiv.textContent = "A senha deve ter pelo menos 3 caracteres.";
                 return false;
             }
-            
-            return true; // Retorna true para enviar o formulário
+            return true;
         }
     </script>
-    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 </head>
 <body>
-    <h1>REGISTRO</h1>
+
+<div class="auth-card">
+    <div class="logo-section">
+        <i class="fas fa-layer-group" style="font-size: 30px; margin-bottom: 10px;"></i>
+        <h2>StockFlow</h2>
+        <p>Seu inventário em um novo nível.</p>
+    </div>
+
     <form method="post" onsubmit="return handleRegistration();">
         {% csrf_token %}
-        <label for="username">Nome de usuário:</label>
-        <input type="text" id="username" name="username" pattern=".*\d{3,}.*" required>
-        <p class="info">O nome de usuário deve conter pelo menos 3 números</p>
         
-        <label for="password">Senha:</label>
-        <input type="password" id="password" name="password" pattern=".*\d{3,}.*" required>
-        <i id="password-icon" class="password-icon far fa-eye" onclick="togglePasswordVisibility()"></i>
-        <p class="info">A senha deve conter pelo menos 3 números</p>
+        <label for="username" class="form-label">Identificação</label>
+        <div class="input-group-custom">
+            <i class="fas fa-user"></i>
+            <input type="text" id="username" name="username" placeholder="Usuário" pattern=".*\d{3,}.*" required>
+        </div>
+        <p class="info-text">Deve conter pelo menos 3 números</p>
         
-        <label for="confirm_password">Confirmar Senha:</label>
-        <input type="password" id="confirm_password" name="confirm_password" required>
+        <label for="password" class="form-label">Senha de Acesso</label>
+        <div class="input-group-custom">
+            <i class="fas fa-lock"></i>
+            <input type="password" id="password" name="password" placeholder="••••••••" pattern=".*\d{3,}.*" required>
+            <i id="eye-icon" class="fas fa-eye" style="cursor:pointer; color:#2563eb" onclick="togglePasswordVisibility()"></i>
+        </div>
+        <p class="info-text">Deve conter pelo menos 3 números</p>
         
-        <p id="error-message" class="error"></p>
+        <label for="confirm_password" class="form-label">Confirmar Senha</label>
+        <div class="input-group-custom">
+            <i class="fas fa-check-double"></i>
+            <input type="password" id="confirm_password" name="confirm_password" placeholder="Repita a senha" required>
+        </div>
         
-        <button type="submit">Registrar-se</button>
+        <p id="error-message" class="error-msg"></p>
+        
+        <button type="submit" class="btn-primary-custom">CRIAR CONTA</button>
     </form>
     
-    <div class="return-btn">
-        <a href="/">Voltar para a página inicial</a>
-    </div>
+    <a href="/" class="return-link">← Voltar para o login</a>
+</div>
+
 </body>
 </html>
