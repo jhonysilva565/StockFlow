@@ -1,0 +1,1 @@
+web: gunicorn gerencia_plus.wsgi
